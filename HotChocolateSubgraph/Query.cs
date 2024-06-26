@@ -2,12 +2,40 @@ namespace HotChocolateSubgraph;
 
 public class Query
 {
-    public List<DataRoom> GetDataRooms()
+    private static readonly Dictionary<int, DataRoom> DataRooms = new()
     {
-        return new List<DataRoom>
         {
-            new()
+            0, new DataRoom
             {
+                Id = 0,
+                Name = "General Information",
+                Folders = new[]
+                {
+                    new Folder
+                    {
+                        Name = "Company Overview",
+                        Documents = new[]
+                        {
+                            new Document { Name = "Mission Statement" },
+                            new Document { Name = "Company History" }
+                        }
+                    },
+                    new Folder
+                    {
+                        Name = "Contact Information",
+                        Documents = new[]
+                        {
+                            new Document { Name = "Employee Directory" },
+                            new Document { Name = "Office Locations" }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            1, new DataRoom
+            {
+                Id = 1,
                 Name = "Financial Reports",
                 Folders = new[]
                 {
@@ -31,9 +59,12 @@ public class Query
                         }
                     }
                 }
-            },
-            new()
+            }
+        },
+        {
+            2, new DataRoom
             {
+                Id = 2,
                 Name = "Project Documents",
                 Folders = new[]
                 {
@@ -57,6 +88,16 @@ public class Query
                     }
                 }
             }
-        };
+        }
+    };
+
+    public List<DataRoom> GetDataRooms()
+    {
+        return DataRooms.Values.ToList();
+    }
+    
+    public DataRoom GetDataRoom(int id)
+    {
+        return DataRooms[id];
     }
 }

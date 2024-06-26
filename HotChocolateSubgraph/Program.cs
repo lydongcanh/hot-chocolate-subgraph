@@ -1,11 +1,14 @@
-
 using HotChocolateSubgraph;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddType<DataRoomType>()
+    .AddType<FolderType>()
+    .AddType<DocumentType>()
+    .AddApolloFederationV2();
 
 var app = builder.Build();
 
