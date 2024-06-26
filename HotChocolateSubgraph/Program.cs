@@ -22,4 +22,5 @@ var app = builder.Build();
 app.UseCors("AllowAllOrigins");
 app.MapGet("/", () => "Hello World!");
 app.MapGraphQL();
+app.MapGraphQLSchema();
 app.Run();
