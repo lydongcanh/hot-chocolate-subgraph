@@ -2,12 +2,12 @@ namespace HotChocolateSubgraph;
 
 public class Query
 {
-    [UsePaging]
+    [UsePaging(MaxPageSize = 1000, IncludeTotalCount = true)]
     [UseFiltering]
     [UseSorting]
     public List<Book> GetBooks()
     {
-        return GenerateMockBooks(100);
+        return GenerateMockBooks(1000);
     }
     
     private List<Book> GenerateMockBooks(int count)
