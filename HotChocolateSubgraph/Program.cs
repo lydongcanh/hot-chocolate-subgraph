@@ -12,9 +12,9 @@ builder.Services
     })
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddType<DataRoomType>()
-    .AddType<FolderType>()
-    .AddType<DocumentType>()
+    .AddType<BookType>()
+    .AddFiltering()
+    .AddSorting()
     .AddApolloFederationV2();
 
 var app = builder.Build();
