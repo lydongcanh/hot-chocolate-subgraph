@@ -2,6 +2,7 @@ using HotChocolateSubgraph;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services
     .AddCors(options =>
     {
@@ -11,8 +12,10 @@ builder.Services
                 .AllowAnyHeader());
     })
     .AddGraphQLServer()
+    .AddDataLoader<AuthorDataLoader>()
     .AddQueryType<Query>()
     .AddType<BookType>()
+    .AddType<AuthorType>()
     .AddFiltering()
     .AddSorting()
     .AddApolloFederationV2();

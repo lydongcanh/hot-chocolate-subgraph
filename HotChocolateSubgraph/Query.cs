@@ -21,7 +21,7 @@ public class Query
             {
                 Id = i,
                 Title = $"Book {i}",
-                Author = $"Author {random.Next(1, 6)}" // Random author selection
+                AuthorId = random.Next(1, 6)
             });
         }
 
