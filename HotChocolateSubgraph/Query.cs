@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using System.Text.Json;
 using HotChocolate.Resolvers;
 
 namespace HotChocolateSubgraph;

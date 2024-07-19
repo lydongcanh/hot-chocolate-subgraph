@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using HotChocolate.Execution;
 using HotChocolateSubgraph;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -77,4 +78,14 @@ app.UseAuthorization();
 app.MapGet("/", () => "Hello World!");
 app.MapGraphQL();
 app.MapGraphQLSchema();
-app.Run();
+
+if (args.Any(c => c == "--generate-schema"))
+{
+    var executor = app.Services.GetRequiredService<IRequestExecutorResolver>().GetRequestExecutorAsync().Result;
+    var schema = executor.Schema.Print();
+    await File.WriteAllTextAsync("schema.graphql", schema);
+}
+else
+{
+    app.Run();
+}
