@@ -66,6 +66,7 @@ builder.Services
     .AddType<MeType>()
     .AddFiltering()
     .AddSorting()
+    .AllowIntrospection(true)
     .AddApolloFederationV2();
 
 var app = builder.Build();
