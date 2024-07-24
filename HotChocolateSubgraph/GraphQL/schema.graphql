@@ -2,59 +2,26 @@ schema {
   query: Query
 }
 
-type Author @key(fields: "id") {
-  id: ID
-  name: String
-}
-
-type Book @key(fields: "id") {
-  id: ID
-  title: String
-  author: Author
-}
-
-"A connection to a list of items."
-type BooksConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [BooksEdge!]
-  "A flattened list of the nodes."
-  nodes: [Book!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type BooksEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Book!
-}
-
-type Me {
-  userId: String!
+type Module @key(fields: "id") {
+  id: ID!
   name: String!
-  email: String!
-  roles: [String!]!
+  description: String
 }
 
-"Information about pagination in a connection."
-type PageInfo {
-  "Indicates whether more edges exist following the set defined by the clients arguments."
-  hasNextPage: Boolean!
-  "Indicates whether more edges exist prior the set defined by the clients arguments."
-  hasPreviousPage: Boolean!
-  "When paginating backwards, the cursor to continue."
-  startCursor: String
-  "When paginating forwards, the cursor to continue."
-  endCursor: String
+type Profile @key(fields: "id") {
+  id: ID!
+  projects: [Project]
+}
+
+type Project @key(fields: "id") {
+  id: ID!
+  name: String!
+  description: String
+  modules: [Module]
 }
 
 type Query {
-  books("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: BookFilterInput order: [BookSortInput!]): BooksConnection
-  me: Me!
+  me: Profile! @shareable
   _service: _Service!
   _entities(representations: [_Any!]!): [_Entity]!
 }
@@ -65,75 +32,12 @@ type _Service {
 }
 
 "Union of all types that key directive applied. This information is needed by the Apollo federation gateway."
-union _Entity = Book | Author
-
-input AuthorFilterInput {
-  and: [AuthorFilterInput!]
-  or: [AuthorFilterInput!]
-  id: IntOperationFilterInput
-  name: StringOperationFilterInput
-}
-
-input AuthorSortInput {
-  id: SortEnumType
-  name: SortEnumType
-}
-
-input BookFilterInput {
-  and: [BookFilterInput!]
-  or: [BookFilterInput!]
-  id: IntOperationFilterInput
-  title: StringOperationFilterInput
-  author: AuthorFilterInput
-  authorId: IntOperationFilterInput
-}
-
-input BookSortInput {
-  id: SortEnumType
-  title: SortEnumType
-  author: AuthorSortInput
-  authorId: SortEnumType
-}
-
-input IntOperationFilterInput {
-  eq: Int
-  neq: Int
-  in: [Int]
-  nin: [Int]
-  gt: Int
-  ngt: Int
-  gte: Int
-  ngte: Int
-  lt: Int
-  nlt: Int
-  lte: Int
-  nlte: Int
-}
-
-input StringOperationFilterInput {
-  and: [StringOperationFilterInput!]
-  or: [StringOperationFilterInput!]
-  eq: String
-  neq: String
-  contains: String
-  ncontains: String
-  in: [String]
-  nin: [String]
-  startsWith: String
-  nstartsWith: String
-  endsWith: String
-  nendsWith: String
-}
+union _Entity = Profile | Project | Module
 
 enum ApplyPolicy {
   BEFORE_RESOLVER
   AFTER_RESOLVER
   VALIDATION
-}
-
-enum SortEnumType {
-  ASC
-  DESC
 }
 
 directive @allowAnonymous repeatable on FIELD_DEFINITION

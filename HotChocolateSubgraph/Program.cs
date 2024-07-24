@@ -1,7 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using HotChocolate.Execution;
-using HotChocolateSubgraph;
+using HotChocolateSubgraph.DTOs;
+using HotChocolateSubgraph.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -46,8 +47,8 @@ builder.Services
     });
 
 // Services
-builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddAuthorization();
+builder.Services.AddSingleton<Resolvers>();
 
 // Graph
 builder.Services
@@ -60,15 +61,14 @@ builder.Services
     })
     .AddGraphQLServer()
     .AddAuthorization()
-    .AddDataLoader<AuthorDataLoader>()
     .AddQueryType<Query>()
-    .AddType<BookType>()
-    .AddType<AuthorType>()
-    .AddType<MeType>()
+    .AddType<ProfileType>()
+    .AddType<ProjectType>()
+    .AddType<ModuleType>()
     .AddFiltering()
     .AddSorting()
-    .AllowIntrospection(true)
-    .AddApolloFederationV2();
+    .AddApolloFederationV2()
+    .AllowIntrospection(true);
 
 var app = builder.Build();
 
@@ -83,7 +83,7 @@ if (args.Any(c => c == "--generate-schema"))
 {
     var executor = app.Services.GetRequiredService<IRequestExecutorResolver>().GetRequestExecutorAsync().Result;
     var schema = executor.Schema.Print();
-    await File.WriteAllTextAsync("schema.graphql", schema);
+    await File.WriteAllTextAsync("./GraphQL/schema.graphql", schema);
 }
 else
 {
