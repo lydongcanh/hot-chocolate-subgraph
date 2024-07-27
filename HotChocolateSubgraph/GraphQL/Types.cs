@@ -8,7 +8,10 @@ public class ProfileType : ObjectType<Profile>
     {
         descriptor.Key("id");
         descriptor.Field(p => p.Id).ID();
-        descriptor.Field(p => p.Projects).Type<ListType<ProjectType>>();
+        
+        descriptor.Field(p => p.Projects)
+            .Type<ListType<ProjectType>>()
+            .ResolveWith<Resolvers>(r => r.GetProjectsByUser());
     }
 }
 
@@ -20,7 +23,10 @@ public class ProjectType : ObjectType<Project>
         descriptor.Field(p => p.Id).ID();
         descriptor.Field(p => p.Name).Type<NonNullType<StringType>>();
         descriptor.Field(p => p.Description).Type<StringType>();
-        descriptor.Field(p => p.Modules).Type<ListType<ModuleType>>();
+        
+        descriptor.Field(p => p.Modules)
+            .Type<ListType<ModuleType>>()
+            .ResolveWith<Resolvers>(r => r.GetModulesByProject());
     }
 }
 

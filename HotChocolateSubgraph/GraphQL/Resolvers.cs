@@ -57,6 +57,16 @@ public class Resolvers
         }
     };
 
+    public List<Module> GetModulesByProject()
+    {
+        return MockModules;
+    }
+    
+    public List<Project> GetProjectsByUser()
+    {
+        return MockProjects;
+    }
+    
     public Profile ResolveProfile()
     {
         return new Profile

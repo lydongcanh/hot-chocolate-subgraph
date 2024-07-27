@@ -1,7 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using HotChocolate.Execution;
-using HotChocolateSubgraph.DTOs;
 using HotChocolateSubgraph.GraphQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
