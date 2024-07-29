@@ -67,6 +67,7 @@ builder.Services
     .AddFiltering()
     .AddSorting()
     .AddApolloFederationV2()
+    .ModifyRequestOptions(options => options.IncludeExceptionDetails = true)
     .AllowIntrospection(true);
 
 var app = builder.Build();
