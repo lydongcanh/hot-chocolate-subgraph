@@ -68,6 +68,7 @@ builder.Services
     .AddSorting()
     .AddApolloFederationV2()
     .ModifyRequestOptions(options => options.IncludeExceptionDetails = true)
+    .AddGlobalObjectIdentification(registerNodeInterface: false)
     .AllowIntrospection(true);
 
 var app = builder.Build();
